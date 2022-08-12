@@ -1,0 +1,88 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Node {
+    public:
+        int data;
+        Node *left;
+        Node *right;
+        Node(int d) {
+            data = d;
+            left = NULL;
+            right = NULL;
+        }
+};
+
+class Solution {
+    public:
+  		Node* insert(Node* root, int data) {
+            if(root == NULL) {
+                return new Node(data);
+            } else {
+                Node* cur;
+                if(data <= root->data) {
+                    cur = insert(root->left, data);
+                    root->left = cur;
+                } else {
+                    cur = insert(root->right, data);
+                    root->right = cur;
+                }
+
+               return root;
+           }
+        }
+/*The tree node has data, left child and right child 
+class Node {
+    int data;
+    Node* left;
+    Node* right;
+};
+
+*/
+    int height(Node* root) {
+        // Write your code here.
+        queue<Node*> q;
+        int count=0;
+        q.push(root);
+        q.push(NULL);
+        while (!q.empty()) {
+            Node* t = q.front();
+            q.pop();
+            if(t==NULL){
+                count++;
+                //q.push(NULL);
+            }
+            if(t!=NULL) {
+                if(t->left) q.push(t->left);
+                if(t->right) q.push(t->right); 
+            }
+            else if (!q.empty()) {
+                q.push(NULL);
+            }
+        }
+        return count-1;
+    }
+
+}; //End of Solution
+
+int main() {
+    
+    Solution myTree;
+    Node* root = NULL;
+    
+    int t;
+    int data;
+
+    std::cin >> t;
+
+    while(t-- > 0) {
+        std::cin >> data;
+        root = myTree.insert(root, data);
+    }
+  
+    int height = myTree.height(root);
+    std::cout << height;
+
+    return 0;
+}
